@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
+    buildToolsVersion project.BUILD_TOOLS_VERSION
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'mockito-extensions/org.mockito.plugins.MockMaker'
+    }
+
+    defaultConfig {
+        applicationId "com.sanfriend.launcher4"
+        useJack = false
+        minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
+        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionName project.VERSION_NAME
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile "com.android.support:support-v4:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:recyclerview-v7:${project.ANDROID_SUPPORT_VERSION}"
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':wallpaper_picker')
+}
