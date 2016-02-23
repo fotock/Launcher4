@@ -172,6 +172,10 @@
     <!-- Strings for settings -->
     <!-- Title for Allow Rotation setting. [CHAR LIMIT=50] -->
     <string name="allow_rotation_title">Allow rotation</string>
+    <string name="show_quick_search">Show quick search box</string>
+    <string name="all_apps_alpha">All apps background alpha</string>
+    <string name="all_apps_text_color">App text color</string>
+    <string name="all_apps_text_color_sum">Text color for all apps</string>
 
     <!-- Label on an icon that references an uninstalled package, for which we have no information about when it might be installed. [CHAR_LIMIT=15] -->
     <string name="package_state_unknown">Unknown</string>

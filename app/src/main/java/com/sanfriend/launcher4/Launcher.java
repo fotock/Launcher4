@@ -551,6 +551,13 @@ public class Launcher extends Activity
         }
     }
 
+    @Override
+    public void onSettingsChanged(String settings, String value) {
+        if (Utilities.ALLAPP_TEXTCOLOR_PREFERENCE_KEY.equals(settings)) {
+            mAppsView.requestLayout();
+        }
+    }
+
     private LauncherCallbacks mLauncherCallbacks;
 
     public void onPostCreate(Bundle savedInstanceState) {
@@ -3549,6 +3556,9 @@ public class Launcher extends Activity
     }
 
     public View getOrCreateQsbBar() {
+        // TODO customize option: showQsb
+        //
+
         if (mLauncherCallbacks != null && mLauncherCallbacks.providesSearch()) {
             return mLauncherCallbacks.getQsbBar();
         }
@@ -3610,7 +3620,6 @@ public class Launcher extends Activity
                 View search = new View(Launcher.this);
 
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mQsb.getHeight());
-                params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics());
 
                 search.setLayoutParams(params);
 

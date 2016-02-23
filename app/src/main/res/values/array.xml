@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="textColorNames">
+        <item>Black (Default)</item>
+        <item>White</item>
+        <item>Translucent black</item>
+        <item>Translucent white</item>
+    </string-array>
+
+    <string-array name="textColorValues">
+        <item>#FF666666</item>
+        <item>#FFFFFFFF</item>
+        <item>#80000000</item>
+        <item>#80FFFFFF</item>
+    </string-array>
+</resources>

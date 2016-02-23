@@ -47,6 +47,7 @@ import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -95,6 +96,9 @@ public final class Utilities {
     private static boolean sForceEnableRotation = isPropertyEnabled(FORCE_ENABLE_ROTATION_PROPERTY);
 
     public static final String ALLOW_ROTATION_PREFERENCE_KEY = "pref_allowRotation";
+    public static final String ALLAPP_ALPHA_PREFERENCE_KEY = "pref_allAppsAlpha";
+    public static final String SHOW_QSB_PREFERENCE_KEY = "pref_showQsb";
+    public static final String ALLAPP_TEXTCOLOR_PREFERENCE_KEY = "pref_allAppTextColor";
 
     public static boolean isPropertyEnabled(String propertyName) {
         return Log.isLoggable(propertyName, Log.VERBOSE);
@@ -110,6 +114,22 @@ public final class Utilities {
 
     public static boolean isRotationAllowedForDevice(Context context) {
         return sForceEnableRotation || context.getResources().getBoolean(R.bool.allow_rotation);
+    }
+
+    public static boolean getPrefAlphaEnabled(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getBoolean(ALLAPP_ALPHA_PREFERENCE_KEY,
+                context.getResources().getBoolean(R.bool.all_apps_alpha));
+    }
+
+    public static int getPrefTextColor(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String colorStr = sharedPrefs.getString(ALLAPP_TEXTCOLOR_PREFERENCE_KEY, "");
+        if (colorStr.length() < 2) {
+            return context.getResources().getColor(R.color.quantum_panel_text_color);
+        } else {
+            return Color.parseColor(colorStr);
+        }
     }
 
     /**

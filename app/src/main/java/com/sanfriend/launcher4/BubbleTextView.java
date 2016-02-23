@@ -19,6 +19,7 @@ package com.sanfriend.launcher4;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.Resources.Theme;
@@ -29,6 +30,7 @@ import android.graphics.Paint;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -127,6 +129,8 @@ public class BubbleTextView extends TextView
         } else if (display == DISPLAY_ALL_APPS) {
             setTextSize(TypedValue.COMPLEX_UNIT_PX, grid.allAppsIconTextSizePx);
             defaultIconSize = grid.allAppsIconSizePx;
+
+            setTextColor(Utilities.getPrefTextColor(context));
         }
 
         mIconSize = a.getDimensionPixelSize(R.styleable.BubbleTextView_iconSizeOverride,

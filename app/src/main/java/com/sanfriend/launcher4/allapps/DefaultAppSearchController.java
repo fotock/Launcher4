@@ -195,7 +195,7 @@ final class DefaultAppSearchController extends AllAppsSearchBarController
         // Show the search bar and focus the search
         final int translationX = Utilities.pxFromDp(SEARCH_TRANSLATION_X_DP,
                 mContext.getResources().getDisplayMetrics());
-        mSearchBarContainerView.setVisibility(View.VISIBLE);
+        //mSearchBarContainerView.setVisibility(View.VISIBLE);
         mSearchBarContainerView.setAlpha(0f);
         mSearchBarContainerView.setTranslationX(translationX);
         mSearchBarContainerView.animate()
@@ -230,14 +230,14 @@ final class DefaultAppSearchController extends AllAppsSearchBarController
         if (animated) {
             // Hide the search bar and focus the recycler view
             mSearchBarContainerView.animate()
-                    .alpha(0f)
+                    //.alpha(0f)
                     .translationX(0)
                     .setDuration(FADE_IN_DURATION)
                     .withLayer()
                     .withEndAction(new Runnable() {
                         @Override
                         public void run() {
-                            mSearchBarContainerView.setVisibility(View.INVISIBLE);
+                            //mSearchBarContainerView.setVisibility(View.INVISIBLE);
                             if (resetTextField) {
                                 mSearchBarEditView.setText("");
                             }
@@ -254,7 +254,7 @@ final class DefaultAppSearchController extends AllAppsSearchBarController
                     .setDuration(FADE_OUT_DURATION)
                     .withLayer();
         } else {
-            mSearchBarContainerView.setVisibility(View.INVISIBLE);
+            //mSearchBarContainerView.setVisibility(View.INVISIBLE);
             if (resetTextField) {
                 mSearchBarEditView.setText("");
             }

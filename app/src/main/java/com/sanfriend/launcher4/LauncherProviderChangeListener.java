@@ -10,6 +10,7 @@ public interface LauncherProviderChangeListener {
     public void onLauncherProviderChange();
 
     public void onSettingsChanged(String settings, boolean value);
+    public void onSettingsChanged(String settings, String value);
 
     public void onAppWidgetHostReset();
 }

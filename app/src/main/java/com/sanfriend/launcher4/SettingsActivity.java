@@ -18,10 +18,12 @@ package com.sanfriend.launcher4;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
+import android.util.Log;
 
 /**
  * Settings activity for Launcher. Currently implements the following setting: Allow rotation
@@ -47,9 +49,9 @@ public class SettingsActivity extends Activity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.launcher_preferences);
 
-            SwitchPreference pref = (SwitchPreference) findPreference(
+            SwitchPreference rotatePref = (SwitchPreference) findPreference(
                     Utilities.ALLOW_ROTATION_PREFERENCE_KEY);
-            pref.setPersistent(false);
+            rotatePref.setPersistent(false);
 
             Bundle extras = new Bundle();
             extras.putBoolean(LauncherSettings.Settings.EXTRA_DEFAULT_VALUE, false);
@@ -57,20 +59,33 @@ public class SettingsActivity extends Activity {
                     LauncherSettings.Settings.CONTENT_URI,
                     LauncherSettings.Settings.METHOD_GET_BOOLEAN,
                     Utilities.ALLOW_ROTATION_PREFERENCE_KEY, extras);
-            pref.setChecked(value.getBoolean(LauncherSettings.Settings.EXTRA_VALUE));
+            rotatePref.setChecked(value.getBoolean(LauncherSettings.Settings.EXTRA_VALUE));
+            rotatePref.setOnPreferenceChangeListener(this);
 
-            pref.setOnPreferenceChangeListener(this);
+            ListPreference textColorPref = (ListPreference) findPreference(
+                    Utilities.ALLAPP_TEXTCOLOR_PREFERENCE_KEY);
+            textColorPref.setOnPreferenceChangeListener(this);
         }
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             Bundle extras = new Bundle();
-            extras.putBoolean(LauncherSettings.Settings.EXTRA_VALUE, (Boolean) newValue);
+            String method = "";
+            if (preference.getKey().equals(Utilities.ALLOW_ROTATION_PREFERENCE_KEY)) {
+                extras.putBoolean(LauncherSettings.Settings.EXTRA_VALUE, (Boolean) newValue);
+                method = LauncherSettings.Settings.METHOD_SET_BOOLEAN;
+            } else if (preference.getKey().equals(Utilities.ALLAPP_TEXTCOLOR_PREFERENCE_KEY)){
+                extras.putString(LauncherSettings.Settings.EXTRA_VALUE, (String) newValue);
+                method = LauncherSettings.Settings.METHOD_SET_TEXTCOLOR;
+            }
+
             getActivity().getContentResolver().call(
                     LauncherSettings.Settings.CONTENT_URI,
-                    LauncherSettings.Settings.METHOD_SET_BOOLEAN,
-                    preference.getKey(), extras);
+                    method,
+                    preference.getKey(),
+                    extras);
             return true;
         }
+
     }
 }

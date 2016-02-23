@@ -238,6 +238,7 @@ public class LauncherProvider extends ContentProvider {
             return null;
         }
 
+        // 接收settings 的通知
         switch (method) {
             case LauncherSettings.Settings.METHOD_GET_BOOLEAN: {
                 Bundle result = new Bundle();
@@ -252,12 +253,24 @@ public class LauncherProvider extends ContentProvider {
                 boolean value = extras.getBoolean(LauncherSettings.Settings.EXTRA_VALUE);
                 getContext().getSharedPreferences(
                         LauncherAppState.getSharedPreferencesKey(), Context.MODE_PRIVATE)
-                        .edit().putBoolean(arg, value).apply();
+                        .edit().putBoolean(arg, value).commit();
                 if (mListener != null) {
                     mListener.onSettingsChanged(arg, value);
                 }
                 Bundle result = new Bundle();
                 result.putBoolean(LauncherSettings.Settings.EXTRA_VALUE, value);
+                return result;
+            }
+            case LauncherSettings.Settings.METHOD_SET_TEXTCOLOR: {
+                String value = extras.getString(LauncherSettings.Settings.EXTRA_VALUE);
+                getContext().getSharedPreferences(
+                        LauncherAppState.getSharedPreferencesKey(), Context.MODE_PRIVATE)
+                        .edit().putString(arg, value).commit();
+                if (mListener != null) {
+                    mListener.onSettingsChanged(arg, value);
+                }
+                Bundle result = new Bundle();
+                result.putString(LauncherSettings.Settings.EXTRA_VALUE, value);
                 return result;
             }
         }

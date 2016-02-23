@@ -223,6 +223,8 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
      * Sets the search bar that shows above the a-z list.
      */
     public void setSearchBarController(AllAppsSearchBarController searchController) {
+        // TODO customize options
+
         if (mSearchBarController != null) {
             throw new RuntimeException("Expected search bar controller to only be set once");
         }
