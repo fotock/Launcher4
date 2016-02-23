@@ -80,6 +80,10 @@ public class SearchDropTargetBar extends FrameLayout implements DragController.D
         if (mQSBSearchBar != null) {
             mHideSearchBarAnim = LauncherAnimUtils.ofFloat(mQSBSearchBar, "alpha", 1f, 0f);
             setupAnimation(mHideSearchBarAnim, mQSBSearchBar);
+            // Fix Quick search box shift
+            LayoutParams layoutParams=new LayoutParams(mQSBSearchBar.getLayoutParams().width, mQSBSearchBar.getLayoutParams().height);
+            layoutParams.setMargins(0, 0-getResources().getDimensionPixelSize(R.dimen.widget_row_divider)*2, 0, 0);
+            mQSBSearchBar.setLayoutParams(layoutParams);
         } else {
             // Create a no-op animation of the search bar is null
             mHideSearchBarAnim = ValueAnimator.ofFloat(0, 0);

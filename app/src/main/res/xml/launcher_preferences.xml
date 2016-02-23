@@ -23,4 +23,26 @@
             android:persistent="true"
     />
 
+    <SwitchPreference
+        android:key="pref_showQsb"
+        android:title="@string/show_quick_search"
+        android:defaultValue="@bool/show_qsb"
+        android:persistent="true"
+        />
+
+    <SwitchPreference
+        android:key="pref_allAppsAlpha"
+        android:title="@string/all_apps_alpha"
+        android:defaultValue="@bool/all_apps_alpha"
+        android:persistent="true"
+        />
+
+    <ListPreference
+        android:key="pref_allAppTextColor"
+        android:title="@string/all_apps_text_color"
+        android:summary="@string/all_apps_text_color_sum"
+        android:defaultValue="#FF666666"
+        android:entries="@array/textColorNames"
+        android:entryValues="@array/textColorValues" />
+
 </PreferenceScreen>
