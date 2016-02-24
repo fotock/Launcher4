@@ -11,7 +11,9 @@
     <bool name="is_large_tablet">false</bool>
     <bool name="allow_rotation">false</bool>
     <bool name="show_qsb">true</bool>
+    <bool name="show_all_apps_search">true</bool>
     <bool name="all_apps_alpha">false</bool>
+    <bool name="all_apps_searchbox">true</bool>
 
 
     <!-- Max number of page indicators to show -->

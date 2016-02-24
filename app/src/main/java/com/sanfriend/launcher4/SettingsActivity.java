@@ -17,6 +17,10 @@
 package com.sanfriend.launcher4;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -44,6 +48,8 @@ public class SettingsActivity extends Activity {
      */
     public static class LauncherSettingsFragment extends PreferenceFragment
             implements OnPreferenceChangeListener {
+        public boolean mPrefernceChanged = false;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -61,6 +67,14 @@ public class SettingsActivity extends Activity {
                     Utilities.ALLOW_ROTATION_PREFERENCE_KEY, extras);
             rotatePref.setChecked(value.getBoolean(LauncherSettings.Settings.EXTRA_VALUE));
             rotatePref.setOnPreferenceChangeListener(this);
+
+            SwitchPreference allAppSearchPref = (SwitchPreference) findPreference(
+                    Utilities.ALLAPP_SEARCHBOX_PREFERENCE_KEY);
+            allAppSearchPref.setOnPreferenceChangeListener(this);
+
+            SwitchPreference bgAlphaPref = (SwitchPreference) findPreference(
+                    Utilities.ALLAPP_ALPHA_PREFERENCE_KEY);
+            bgAlphaPref.setOnPreferenceChangeListener(this);
 
             ListPreference textColorPref = (ListPreference) findPreference(
                     Utilities.ALLAPP_TEXTCOLOR_PREFERENCE_KEY);
@@ -84,8 +98,29 @@ public class SettingsActivity extends Activity {
                     method,
                     preference.getKey(),
                     extras);
+
+            mPrefernceChanged = true;
+
             return true;
         }
 
+        @Override
+        public void onStop() {
+            super.onStop();
+
+            if (!mPrefernceChanged) return;
+
+            // restart launcher
+            Context context = getActivity().getBaseContext();
+            Intent mStartActivity = new Intent(context, Launcher.class);
+            int mPendingIntentId = 827323;
+            PendingIntent mPendingIntent = PendingIntent.getActivity(context,
+                    mPendingIntentId,
+                    mStartActivity,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+            AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 10, mPendingIntent);
+            System.exit(0);
+        }
     }
 }

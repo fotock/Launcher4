@@ -99,6 +99,7 @@ public final class Utilities {
     public static final String ALLAPP_ALPHA_PREFERENCE_KEY = "pref_allAppsAlpha";
     public static final String SHOW_QSB_PREFERENCE_KEY = "pref_showQsb";
     public static final String ALLAPP_TEXTCOLOR_PREFERENCE_KEY = "pref_allAppTextColor";
+    public static final String ALLAPP_SEARCHBOX_PREFERENCE_KEY = "pref_allAppSearchBox";
 
     public static boolean isPropertyEnabled(String propertyName) {
         return Log.isLoggable(propertyName, Log.VERBOSE);
@@ -114,6 +115,12 @@ public final class Utilities {
 
     public static boolean isRotationAllowedForDevice(Context context) {
         return sForceEnableRotation || context.getResources().getBoolean(R.bool.allow_rotation);
+    }
+
+    public static boolean getPrefAllAppSearchBox(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getBoolean(ALLAPP_SEARCHBOX_PREFERENCE_KEY,
+                context.getResources().getBoolean(R.bool.all_apps_searchbox));
     }
 
     public static boolean getPrefAlphaEnabled(Context context) {

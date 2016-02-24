@@ -28,7 +28,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
@@ -554,7 +556,6 @@ public class Launcher extends Activity
     @Override
     public void onSettingsChanged(String settings, String value) {
         if (Utilities.ALLAPP_TEXTCOLOR_PREFERENCE_KEY.equals(settings)) {
-            mAppsView.requestLayout();
         }
     }
 

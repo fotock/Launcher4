@@ -20,10 +20,18 @@
 <resources>
     <style name="Theme.Light.CustomOverscroll" parent="@android:style/Theme.DeviceDefault">
         <item name="android:colorEdgeEffect">@color/folder_edge_effect_color</item>
+        <item name="android:fastScrollEnabled">true</item>
+        <item name="android:fastScrollAlwaysVisible">true</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fast_scroll_thumb</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/fast_scroll_track</item>
     </style>
 
     <style name="Theme.Dark.CustomOverscroll" parent="@android:style/Theme.DeviceDefault">
         <item name="android:colorEdgeEffect">@color/workspace_edge_effect_color</item>
+        <item name="android:fastScrollEnabled">true</item>
+        <item name="android:fastScrollAlwaysVisible">true</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fast_scroll_thumb</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/fast_scroll_track</item>
     </style>
 
     <style name="Icon">

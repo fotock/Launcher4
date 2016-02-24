@@ -24,9 +24,9 @@
     />
 
     <SwitchPreference
-        android:key="pref_showQsb"
-        android:title="@string/show_quick_search"
-        android:defaultValue="@bool/show_qsb"
+        android:key="pref_allAppSearchBox"
+        android:title="@string/all_apps_search_box"
+        android:defaultValue="@bool/show_all_apps_search"
         android:persistent="true"
         />
 

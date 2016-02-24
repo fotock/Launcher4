@@ -18,6 +18,7 @@ package com.sanfriend.launcher4.allapps;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.InsetDrawable;
@@ -234,10 +235,13 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
         // Add the new search view to the layout
         View searchBarView = searchController.getView(mSearchBarContainerView);
         mSearchBarContainerView.addView(searchBarView);
-        mSearchBarContainerView.setVisibility(View.VISIBLE);
-        mSearchBarView = searchBarView;
-        setHasSearchBar();
 
+        if (Utilities.getPrefAllAppSearchBox(getContext())) {
+            mSearchBarContainerView.setVisibility(View.VISIBLE);
+            setHasSearchBar();
+        }
+
+        mSearchBarView = searchBarView;
         updateBackgroundAndPaddings();
     }
 
@@ -364,8 +368,11 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
         boolean isRtl = Utilities.isRtl(getResources());
 
         // TODO: Use quantum_panel instead of quantum_panel_shape
+        int shapeId = Utilities.getPrefAlphaEnabled(getContext())?
+                R.drawable.quantum_panel_shape_alpha :
+                R.drawable.quantum_panel_shape;
         InsetDrawable background = new InsetDrawable(
-                getResources().getDrawable(R.drawable.quantum_panel_shape), padding.left, 0,
+                getResources().getDrawable(shapeId), padding.left, 0,
                 padding.right, 0);
         Rect bgPadding = new Rect();
         background.getPadding(bgPadding);

@@ -34,6 +34,7 @@
 
     <color name="quantum_panel_text_color">#FF666666</color>
     <color name="quantum_panel_bg_color">#FFF5F5F5</color>
+    <color name="quantum_panel_bg_color_alpha">#20F5F5F5</color>
     <color name="quantum_panel_bg_color_dark">#FF374248</color>
 
     <color name="outline_color">#FFFFFFFF</color>

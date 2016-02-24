@@ -155,9 +155,10 @@
 
         <activity
             android:name="com.sanfriend.launcher4.SettingsActivity"
-            android:label="@string/settings_button_text"
+            android:label="@string/settings_button_text">
+            <!--
             android:autoRemoveFromRecents="true"
-            android:process=":settings_process">
+            android:process=":settings_process"-->
         </activity>
 
         <!-- Debugging tools -->

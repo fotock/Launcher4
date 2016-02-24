@@ -253,7 +253,7 @@ public class LauncherProvider extends ContentProvider {
                 boolean value = extras.getBoolean(LauncherSettings.Settings.EXTRA_VALUE);
                 getContext().getSharedPreferences(
                         LauncherAppState.getSharedPreferencesKey(), Context.MODE_PRIVATE)
-                        .edit().putBoolean(arg, value).commit();
+                        .edit().putBoolean(arg, value).apply();
                 if (mListener != null) {
                     mListener.onSettingsChanged(arg, value);
                 }
@@ -265,7 +265,7 @@ public class LauncherProvider extends ContentProvider {
                 String value = extras.getString(LauncherSettings.Settings.EXTRA_VALUE);
                 getContext().getSharedPreferences(
                         LauncherAppState.getSharedPreferencesKey(), Context.MODE_PRIVATE)
-                        .edit().putString(arg, value).commit();
+                        .edit().putString(arg, value).apply();
                 if (mListener != null) {
                     mListener.onSettingsChanged(arg, value);
                 }
