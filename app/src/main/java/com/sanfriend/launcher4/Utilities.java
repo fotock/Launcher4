@@ -208,6 +208,7 @@ public final class Utilities {
      */
     public static Bitmap createIconBitmap(Drawable icon, Context context) {
         synchronized (sCanvas) {
+
             final int iconBitmapSize = getIconBitmapSize();
 
             int width = iconBitmapSize;
