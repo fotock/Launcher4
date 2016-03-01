@@ -82,7 +82,8 @@ public final class Utilities {
         sCanvas.setDrawFilter(new PaintFlagsDrawFilter(Paint.DITHER_FLAG,
                 Paint.FILTER_BITMAP_FLAG));
     }
-    static int sColors[] = { 0xffff0000, 0xff00ff00, 0xff0000ff };
+
+    static int sColors[] = {0xffff0000, 0xff00ff00, 0xff0000ff};
     static int sColorIndex = 0;
 
     private static final int[] sLoc0 = new int[2];
@@ -170,7 +171,7 @@ public final class Utilities {
      * exist, it returns null.
      */
     public static Bitmap createIconBitmap(String packageName, String resourceName,
-            Context context) {
+                                          Context context) {
         PackageManager packageManager = context.getPackageManager();
         // the resource
         try {
@@ -236,31 +237,56 @@ public final class Utilities {
                 }
             }
 
+            // 图标缩小
+            int rsc = 65;
+            width = width * rsc / 100;
+            height = height * rsc / 100;
+
             // no intrinsic size --> use default size
             int textureWidth = iconBitmapSize;
             int textureHeight = iconBitmapSize;
 
             final Bitmap bitmap = Bitmap.createBitmap(textureWidth, textureHeight,
                     Bitmap.Config.ARGB_8888);
+
             final Canvas canvas = sCanvas;
             canvas.setBitmap(bitmap);
 
-            final int left = (textureWidth-width) / 2;
-            final int top = (textureHeight-height) / 2;
+            final int left = (textureWidth - width) / 2;
+            final int top = (textureHeight - height) / 2;
 
             @SuppressWarnings("all") // suppress dead code warning
-            final boolean debug = false;
+            // debug 画背景色
+            final boolean debug = true;
             if (debug) {
                 // draw a big box for the icon for debugging
-                canvas.drawColor(sColors[sColorIndex]);
-                if (++sColorIndex >= sColors.length) sColorIndex = 0;
+                canvas.drawColor(0x0000000);// 区域背景透明
+                //canvas.drawColor(sColors[sColorIndex]);
+                //if (++sColorIndex >= sColors.length) sColorIndex = 0;
                 Paint debugPaint = new Paint();
-                debugPaint.setColor(0xffcccc00);
-                canvas.drawRect(left, top, left+width, top+height, debugPaint);
+                debugPaint.setColor(0xffaabb00);// 图标背景颜色
+                //canvas.drawRect(left, top, left + width, top + height, debugPaint);
+                float radius = 20f;
+                canvas.drawRoundRect(radius, radius, iconBitmapSize - radius, iconBitmapSize - radius, radius, radius, debugPaint);
             }
 
+            // 画一个背景
+            /*
+            Bitmap backBitmap = BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.apical_icon_bg);
+            int backWidth = backBitmap.getWidth();
+            int backHeight = backBitmap.getHeight();
+            if(backWidth != sIconWidth || backHeight != sIconHeight) {
+                Matrix matrix = new Matrix();
+                matrix.postScale((float) sIconWidth / backWidth, (float) sIconHeight / backHeight);
+                canvas.drawBitmap(Bitmap.createBitmap(backBitmap, 0, 0, backWidth, backHeight, matrix, true),
+                        0.0f, 0.0f, null);
+            }
+            */
+
             sOldBounds.set(icon.getBounds());
-            icon.setBounds(left, top, left+width, top+height);
+            icon.setBounds(left, top, left + width, top + height);
+            //icon.setBounds(0, 0, iconBitmapSize, iconBitmapSize);
             icon.draw(canvas);
             icon.setBounds(sOldBounds);
             canvas.setBitmap(null);
@@ -273,14 +299,14 @@ public final class Utilities {
      * Given a coordinate relative to the descendant, find the coordinate in a parent view's
      * coordinates.
      *
-     * @param descendant The descendant to which the passed coordinate is relative.
-     * @param root The root view to make the coordinates relative to.
-     * @param coord The coordinate that we want mapped.
+     * @param descendant        The descendant to which the passed coordinate is relative.
+     * @param root              The root view to make the coordinates relative to.
+     * @param coord             The coordinate that we want mapped.
      * @param includeRootScroll Whether or not to account for the scroll of the descendant:
-     *          sometimes this is relevant as in a child's coordinates within the descendant.
+     *                          sometimes this is relevant as in a child's coordinates within the descendant.
      * @return The factor by which this descendant is scaled relative to this DragLayer. Caution
-     *         this scale factor is assumed to be equal in X and Y, and so if at any point this
-     *         assumption fails, we will need to return a pair of scale factors.
+     * this scale factor is assumed to be equal in X and Y, and so if at any point this
+     * assumption fails, we will need to return a pair of scale factors.
      */
     public static float getDescendantCoordRelativeToParent(View descendant, View root,
                                                            int[] coord, boolean includeRootScroll) {
@@ -289,7 +315,7 @@ public final class Utilities {
         float[] pt = {coord[0], coord[1]};
 
         View v = descendant;
-        while(v != root && v != null) {
+        while (v != root && v != null) {
             ancestorChain.add(v);
             v = (View) v.getParent();
         }
@@ -318,7 +344,7 @@ public final class Utilities {
     }
 
     /**
-     * Inverse of {@link #getDescendantCoordRelativeToSelf(View, int[])}.
+     * Inverse of {@link # getDescendantCoordRelativeToSelf(View, int[])}.
      */
     public static float mapCoordInSelfToDescendent(View descendant, View root,
                                                    int[] coord) {
@@ -327,7 +353,7 @@ public final class Utilities {
         float[] pt = {coord[0], coord[1]};
 
         View v = descendant;
-        while(v != root) {
+        while (v != root) {
             ancestorChain.add(v);
             v = (View) v.getParent();
         }
@@ -338,7 +364,7 @@ public final class Utilities {
         int count = ancestorChain.size();
         for (int i = count - 1; i >= 0; i--) {
             View ancestor = ancestorChain.get(i);
-            View next = i > 0 ? ancestorChain.get(i-1) : null;
+            View next = i > 0 ? ancestorChain.get(i - 1) : null;
 
             pt[0] += ancestor.getScrollX();
             pt[1] += ancestor.getScrollY();
@@ -445,7 +471,8 @@ public final class Utilities {
 
     /**
      * This picks a dominant color, looking for high-saturation, high-value, repeated hues.
-     * @param bitmap The bitmap to scan
+     *
+     * @param bitmap  The bitmap to scan
      * @param samples The approximate max number of samples to use.
      */
     static int findDominantColorByHue(Bitmap bitmap, int samples) {
@@ -610,18 +637,18 @@ public final class Utilities {
      * Find the first vacant cell, if there is one.
      *
      * @param vacant Holds the x and y coordinate of the vacant cell
-     * @param spanX Horizontal cell span.
-     * @param spanY Vertical cell span.
-     *
+     * @param spanX  Horizontal cell span.
+     * @param spanY  Vertical cell span.
      * @return true if a vacant cell was found
      */
     public static boolean findVacantCell(int[] vacant, int spanX, int spanY,
-            int xCount, int yCount, boolean[][] occupied) {
+                                         int xCount, int yCount, boolean[][] occupied) {
 
         for (int y = 0; (y + spanY) <= yCount; y++) {
             for (int x = 0; (x + spanX) <= xCount; x++) {
                 boolean available = !occupied[x][y];
-                out:            for (int i = x; i < x + spanX; i++) {
+                out:
+                for (int i = x; i < x + spanX; i++) {
                     for (int j = y; j < y + spanY; j++) {
                         available = available && !occupied[i][j];
                         if (!available) break out;
@@ -718,18 +745,21 @@ public final class Utilities {
                 Set<String> keys = extras.keySet();
                 return keys.size() == 1 && keys.contains(ItemInfo.EXTRA_PROFILE);
             }
-        };
+        }
+        ;
         return false;
     }
 
-    public static float dpiFromPx(int size, DisplayMetrics metrics){
+    public static float dpiFromPx(int size, DisplayMetrics metrics) {
         float densityRatio = (float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT;
         return (size / densityRatio);
     }
+
     public static int pxFromDp(float size, DisplayMetrics metrics) {
         return (int) Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 size, metrics));
     }
+
     public static int pxFromSp(float size, DisplayMetrics metrics) {
         return (int) Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
                 size, metrics));
